@@ -1,6 +1,6 @@
 import cv2
 from torch.utils.data import Dataset
-from torch.utils.tensorboard import image
+
 
 def read_xray(path):
     xray = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
@@ -25,7 +25,7 @@ class Knee_Dataset(Dataset):
     def __getitem__(self, idx):
 
         image = read_xray(self.df["xrays"].iloc[idx])
-        mask = read_xray(self.df["masks"].iloc[idx])
+        mask = read_mask(self.df["masks"].iloc[idx])
 
         res = {
             "image": image,

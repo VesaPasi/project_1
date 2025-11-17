@@ -1,4 +1,5 @@
 import argparse
+import torch
 
 def get_args():
     parser = argparse.ArgumentParser(description='Model training options')
@@ -15,6 +16,9 @@ def get_args():
     parser.add_argument('-epochs', type=float, default=10)
 
     parser.add_argument('-out_dir', type=str, default='session')
+
+    parser.add_argument('-device', type=str, default='cuda' if torch.cuda.is_available() else 'cpu',
+                        choices=['cpu', 'cuda'])
 
     args = parser.parse_args()
 
