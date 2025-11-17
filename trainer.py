@@ -13,6 +13,7 @@ def train_model(model, train_loader, val_loader, args):
     criterion = nn.BCWithLogitsLoss()
     optimizer = optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.wd)
 
+
     for data_batch in train_loader:
         images, masks = data_batch['image'].to(args.device), data_batch['mask'].to(args.device)
 
@@ -31,7 +32,7 @@ def train_model(model, train_loader, val_loader, args):
     train_loss = running_loss / len(train_loader)
 
     val_loss, val_score = validate_model(model, val_loader, criterion, args)
-    print(f"Epoch {epoch + 1}/{args.num_epochs}, Train Loss: {train_loss:.4f}, Val Loss: {val_loss:.4f}, Val Dice: {val_score:.4f}")
+    print(f"Epoch {data_batch + 1}/{args.num_epochs}, Train Loss: {train_loss:.4f}, Val Loss: {val_loss:.4f}, Val Dice: {val_score:.4f}")
 
 def validate_model(model, val_loader, loss_fn, args):
     model = model.to(args.device)
