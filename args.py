@@ -1,4 +1,4 @@
-## Defines arguments for refining the pipeline
+## Defines arguments for refining the pipeline 
 
 import argparse
 import os
