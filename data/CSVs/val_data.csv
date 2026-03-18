@@ -1,0 +1,5 @@
+images,labels
+G:\moose\data\images\img_000.jpg,G:\moose\data\labels\img_000.txt
+G:\moose\data\images\img_017.jpg,G:\moose\data\labels\img_017.txt
+G:\moose\data\images\img_015.jpg,G:\moose\data\labels\img_015.txt
+G:\moose\data\images\img_001.jpg,G:\moose\data\labels\img_001.txt

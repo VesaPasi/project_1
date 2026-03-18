@@ -1,0 +1,4 @@
+names:
+  0: moose
+path: .
+train: train.txt
