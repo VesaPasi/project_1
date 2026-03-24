@@ -4,11 +4,13 @@ import argparse
 import os
 from pathlib import Path
 
+import torch
+
 home = Path.home()
 csv_dir = Path(home / "OneDrive" / "moose" / "data" / "CSVs")
 out_dir = Path(home / "OneDrive" / "moose" / "sessions")
 
-
+device = "cuda" if torch.cuda.is_available() else "cpu"
 
 def get_args():
     parser = argparse.ArgumentParser(description="Model training options")

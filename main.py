@@ -14,6 +14,33 @@ from pathlib import Path
 
 import pandas as pd
 import os
+import matplotlib.pyplot as plt
+
+def plot_metrics(metrics):
+    """Plot training and validation metrics."""
+    fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+    
+    # Plot losses
+    axes[0].plot(metrics['epoch'], metrics['train_loss'], label='Train Loss', marker='o')
+    axes[0].plot(metrics['epoch'], metrics['val_loss'], label='Val Loss', marker='s')
+    axes[0].set_xlabel('Epoch')
+    axes[0].set_ylabel('Loss')
+    axes[0].set_title('Training vs Validation Loss')
+    axes[0].legend()
+    axes[0].grid(True, alpha=0.3)
+    
+    # Plot validation score
+    axes[1].plot(metrics['epoch'], metrics['val_score'], label='Val Score', marker='o', color='green')
+    axes[1].set_xlabel('Epoch')
+    axes[1].set_ylabel('Detection Accuracy (%)')
+    axes[1].set_title('Validation Detection Score')
+    axes[1].legend()
+    axes[1].grid(True, alpha=0.3)
+    
+    plt.tight_layout()
+    plt.savefig('training_metrics.png', dpi=150, bbox_inches='tight')
+    print("Plot saved as 'training_metrics.png'")
+    plt.show()
 
 def collate(batch):
     images, targets = zip(*batch)
@@ -44,6 +71,15 @@ def main():
 
     # 4. Initiate the model
     model = build_model(args.backbone)
+
+    # 5. Start training
+    from trainer import train_model
+    metrics = train_model(model, train_loader, val_loader, args)
+    
+    # 6. Plot metrics
+    plot_metrics(metrics)
+
+    
     
 if __name__ == '__main__':
     main()
