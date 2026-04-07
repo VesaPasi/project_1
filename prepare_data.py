@@ -3,8 +3,8 @@ import csv
 
 # Define your directories and labels
 dir_label_pairs = [
-    ('G:\moose\data\images', 'images'),
-    ('G:\moose\data\labels', 'labels')
+    ('F:\data\images', 'images'),
+    ('F:\data\labels', 'labels')
 ]
 
 # Output CSV file

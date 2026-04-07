@@ -1,13 +1,19 @@
 ## Loads images and prepares training data entries
 
 import torch
-from PIL import Image
+import augmentations as aug
+from PIL import Image, ImageOps
 from torchvision.transforms.functional import to_tensor
 
 
 class ObjDetectionDataset(torch.utils.data.Dataset):
-    def __init__(self, df):
+    def __init__(self, df, transform=None):
         self.df = df.reset_index(drop=True)
+        
+        if transform is None:
+            self.transform = aug.No_transform()
+        else:
+            self.transform = aug.Compose(transform)
 
     def __len__(self):
         return len(self.df)
@@ -18,6 +24,7 @@ class ObjDetectionDataset(torch.utils.data.Dataset):
         row = self.df.iloc[idx]
 
         img = Image.open(row["images"]).convert("RGB")
+        img = ImageOps.exif_transpose(img)  # Handle EXIF orientation if needed
         w, h = img.size
         image = to_tensor(img)
 
@@ -39,5 +46,8 @@ class ObjDetectionDataset(torch.utils.data.Dataset):
         }
         # TODO 2: Return what you need from this class
         # your code here yes
+
+        # Apply augmentations
+        image, target = self.transform(image, target)
 
         return image, target

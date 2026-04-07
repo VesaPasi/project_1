@@ -1,14 +1,15 @@
 import os
 import csv
+from pathlib import Path
 
 # Define your directories and labels
 dir_label_pairs = [
-    ('G:\moose\data\images', 'images'),
-    ('G:\moose\data\labels', 'labels')
+    (r'F:\data\images', 'images'),
+    (r'F:\data\labels', 'labels')
 ]
 
 # Output CSV file
-csv_filename = 'dataset.csv'
+csv_filename = Path(__file__).resolve().parent / 'dataset.csv'
 
 # Collect image paths and labels
 images = []

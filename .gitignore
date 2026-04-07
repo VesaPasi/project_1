@@ -1,0 +1,13 @@
+.venv/
+data/images/
+
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+
+# Notebook checkpoints
+.ipynb_checkpoints/
+
+# Tool caches
+.pytest_cache/
+.mypy_cache/

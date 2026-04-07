@@ -6,6 +6,7 @@ import torch
 import torch.optim as optim
 from torchvision.ops import box_iou
 from args import get_args
+from utils import show_batch
 
 def compute_iou_loss(predictions, targets):
     """
@@ -57,6 +58,7 @@ def compute_detection_score(predictions, targets):
 def train_model(model, train_loader, val_loader, args):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model.to(device)
+    preview_shown = False
 
     optimizer = optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.wd)
     
@@ -75,6 +77,11 @@ def train_model(model, train_loader, val_loader, args):
         for images, targets in train_loader:
             images = [img.to(device) for img in images]
             targets = [{k: v.to(device) for k, v in t.items()} for t in targets]
+
+            if not preview_shown:
+                # Show one preview batch only to avoid blocking every training step.
+                show_batch(images, targets)
+                preview_shown = True
 
             optimizer.zero_grad()
             # In training mode, torchvision detection models require targets

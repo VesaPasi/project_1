@@ -6,6 +6,7 @@ from args import get_args
 from dataset import ObjDetectionDataset
 # import dataloader
 from torch.utils.data import DataLoader
+from augmentations import build_train_transforms, build_val_transforms
 
 # import model
 from model import build_model
@@ -58,12 +59,12 @@ def main():
     val_df = pd.read_csv(val_csv)
 
     # 2. Prepare datasets
-    train_dataset = ObjDetectionDataset(train_df)
-    val_dataset = ObjDetectionDataset(val_df)
+    train_dataset = ObjDetectionDataset(train_df, transform=build_train_transforms(args.image_size))
+    val_dataset = ObjDetectionDataset(val_df, transform=build_val_transforms(args.image_size))
 
     # 3. Create dataloaders
-    train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, collate_fn=collate)
-    val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False, collate_fn=collate)
+    train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, collate_fn=collate, num_workers=0, pin_memory=False)
+    val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False, collate_fn=collate, num_workers=0, pin_memory=False)
 
     images, targets = next(iter(train_loader))
     print(f"Batch of images: {len(images)}")
@@ -79,7 +80,9 @@ def main():
     # 6. Plot metrics
     plot_metrics(metrics)
 
+    #return None
     
     
 if __name__ == '__main__':
     main()
+    
